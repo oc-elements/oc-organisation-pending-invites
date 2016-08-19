@@ -3,7 +3,9 @@
   "description": "Element to manage pending staff invitations on the Ordercloud platform",
   "main": "oc-organisation-pending-invites.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0"
+    "polymer": "Polymer/polymer#^1.4.0",
+    "oc-pending-invites": "git://github.com/oc-elements/oc-pending-invites.git#1.x",
+    "oc-invitations-api": "git://github.com/oc-elements/oc-invitations-api.git#1.x"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

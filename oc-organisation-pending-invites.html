@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../oc-pending-invites/oc-pending-invites.html">
+<link rel="import" href="../oc-invitations-api/oc-invitations-api.html">
 
 <!--
 `oc-organisation-pending-invites`
@@ -14,7 +16,11 @@ Element to manage pending staff invitations on the Ordercloud platform
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+
+    <oc-invitations-api id="inviteApi"></oc-invitations-api>
+
+    <oc-pending-invites items="[[_invitationsList]]"></oc-pending-invites>
+
   </template>
 
   <script>
@@ -23,10 +29,7 @@ Element to manage pending staff invitations on the Ordercloud platform
       is: 'oc-organisation-pending-invites',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'oc-organisation-pending-invites',
-        },
+        _invitationsList : Array
       },
 
     });
