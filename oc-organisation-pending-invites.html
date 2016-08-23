@@ -19,7 +19,7 @@ Element to manage pending staff invitations on the Ordercloud platform
 
     <oc-invitations-api id="inviteApi"></oc-invitations-api>
 
-    <oc-pending-invites items="[[_invitationsList]]"></oc-pending-invites>
+    <oc-pending-invites items="[[_invitationsList]]" total-items="[[_totalItems]]" page-size="[[_pageSize]]"></oc-pending-invites>
 
   </template>
 
@@ -29,8 +29,40 @@ Element to manage pending staff invitations on the Ordercloud platform
       is: 'oc-organisation-pending-invites',
 
       properties: {
+        organisationId: Number,
+        loading: {
+          type: Boolean,
+          notify: true
+        },
         _invitationsList : Array
       },
+
+      listeners: {
+        "resend" : "_resendInvite"
+      },
+
+      refresh : function(){
+        this._getInvitations(this.organisationId)
+      },
+
+      _getInvitations : function(organisationId){
+        this.$.inviteApi.getInvitations(organisationId)
+                .then(function(request){
+                  this._invitationsList = request.response.results;
+                  this._pageSize = request.response.results.length;
+                  this._totalItems = request.response.count;
+                  this._totalItems = request.response.count;
+                }.bind(this))
+                .catch(this.fire.bind(this, 'options_error', 'Could not create option set'))
+                .finally(this.set.bind(this, 'loading', false));
+      },
+
+      _resendInvite : function(e){
+        this.loading = true;
+        this.$.inviteApi.resendInvite(e.detail.id)
+                .catch(this.fire.bind(this, 'options_error', 'Could not create option set'))
+                .finally(this.set.bind(this, 'loading', false));
+      }
 
     });
   </script>
