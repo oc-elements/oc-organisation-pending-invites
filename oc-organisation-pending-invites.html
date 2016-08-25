@@ -68,6 +68,9 @@ Element to manage pending staff invitations on the Ordercloud platform
       _rejectInvite : function(e){
         this.loading = true;
         this.$.inviteApi.rejectInvite(e.detail.hash)
+                .then(function(){
+                  this._getInvitations(this.organisationId);
+                }.bind(this))
                 .catch(this.fire.bind(this, 'options_error', 'Could not create option set'))
                 .finally(this.set.bind(this, 'loading', false));
       }
