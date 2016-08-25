@@ -38,7 +38,8 @@ Element to manage pending staff invitations on the Ordercloud platform
       },
 
       listeners: {
-        "resend" : "_resendInvite"
+        "resend" : "_resendInvite",
+        "reject" : "_rejectInvite"
       },
 
       refresh : function(){
@@ -60,6 +61,13 @@ Element to manage pending staff invitations on the Ordercloud platform
       _resendInvite : function(e){
         this.loading = true;
         this.$.inviteApi.resendInvite(e.detail.id)
+                .catch(this.fire.bind(this, 'options_error', 'Could not create option set'))
+                .finally(this.set.bind(this, 'loading', false));
+      },
+
+      _rejectInvite : function(e){
+        this.loading = true;
+        this.$.inviteApi.rejectInvite(e.detail.hash)
                 .catch(this.fire.bind(this, 'options_error', 'Could not create option set'))
                 .finally(this.set.bind(this, 'loading', false));
       }
